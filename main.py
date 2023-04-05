@@ -10,34 +10,51 @@ import websocket
 import logging
 import json
 
+
+account = "serg.chupak@gmail.com"
+driver = webdriver.Chrome('chromedriver')
+engage = False
+
 def print_hi(name):
     # Use a breakpoint in the code line below to debug your script.
     print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
 
-def start_browser():
-    driver = webdriver.Chrome('chromedriver')
 
-
-    driver = login(driver)
-
-
-    driver.quit()
 
 def on_message(ws, message):
+    global driver
     print(message)
+
+    try:
+        message = json.loads(message)
+        if message['type'] == 'emulator_message':
+            action = json.loads(message['message'])['action']
+
+            if action == 'login':
+                print(action)
+                driver = login(driver)
+    except Exception as e:
+        print(e)
+
+
 
 def on_error(ws, error):
     print(error)
 
 def on_close(ws):
     print("WebSocket closed")
+    driver.quit()
 
 def on_open(ws):
     print("WebSocket opened")
     # send a message when the WebSocket is opened
     json_message = {"type": "emulator_message", "message": "Hello, world!"}
     ws.send(json.dumps(json_message))
-    start_browser()
+
+    def send_ping():
+        while ws.keep_running:
+            ws.send_ping()
+            time.sleep(60)
 
 
 # Press the green button in the gutter to run the script.
@@ -50,9 +67,10 @@ if __name__ == '__main__':
                                 on_error=on_error,
                                 on_close=on_close,
                                 on_open=on_open,
+
                                 )
     ws.on_open = on_open
-    ws.run_forever()
+    ws.run_forever(ping_timeout=120)
 
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/

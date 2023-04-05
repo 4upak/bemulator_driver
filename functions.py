@@ -29,7 +29,8 @@ def login(driver):
             if cabinet:
                 print('Login success')
                 break
-        except:
+        except Exception as e:
+            print(e)
             print('Still waiting for login')
             time.sleep(1)
             continue
