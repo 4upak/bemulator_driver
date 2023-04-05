@@ -7,35 +7,38 @@ import time
 def login(driver):
     driver.get('https://binance.com')
 
-    wait = WebDriverWait(driver, 1000000)
-    wait.until(EC.presence_of_element_located((By.ID, 'header_login')))
-
-    link = driver.find_element(By.ID, 'header_login')
-    # if element finded
-    if link:
-        # click on element
-        link.click()
-    else:
-        print('link not found')
+    #wait = WebDriverWait(driver, 1000000)
+    #wait.until(EC.presence_of_element_located((By.ID, ['header_login','header_menu_cabinet','mobile_header_menu_cabinet'])))
 
     while True:
         try:
-            cabinet = driver.find_element(By.ID, 'header_menu_cabinet')
-            if cabinet:
-                print('Login success')
-                break
-
-            cabinet = driver.find_element(By.ID, 'mobile_header_menu_cabinet')
-            if cabinet:
-                print('Login success')
+            if driver.find_element(By.ID, 'header_deposit_drawer'):
                 break
         except Exception as e:
-            print(e)
+            pass
+
+        try:
+            link = driver.find_element(By.ID, 'header_login')
+            if link:
+                link.click()
+                break
+        except Exception as e:
+            print('Wair for login button')
+            time.sleep(1)
+            continue
+
+    while True:
+        try:
+            cabinet = driver.find_element(By.ID, 'header_deposit_drawer')
+            if cabinet:
+                print('Login success')
+                return driver
+        except Exception as e:
             print('Still waiting for login')
             time.sleep(1)
             continue
 
-    return driver
+
 
 def quit(webdriver):
     pass

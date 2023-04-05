@@ -11,7 +11,7 @@ import logging
 import json
 
 
-account = "serg.chupak@gmail.com"
+account = "serg_chupak@gmail.com"
 driver = webdriver.Chrome('chromedriver')
 engage = False
 
@@ -23,16 +23,26 @@ def print_hi(name):
 
 def on_message(ws, message):
     global driver
+    global account
     print(message)
 
     try:
         message = json.loads(message)
         if message['type'] == 'emulator_message':
-            action = json.loads(message['message'])['action']
+            message_dict = json.loads(message['message'])
+            action = message_dict['action']
+
 
             if action == 'login':
                 print(action)
-                driver = login(driver)
+                print(message_dict['data'])
+                data = message_dict['data']
+                action_account = data['account']
+                if str(action_account) == str(account):
+                    driver = login(driver)
+                else:
+                    print(action_account + " != " + account)
+
     except Exception as e:
         print(e)
 
@@ -54,7 +64,7 @@ def on_open(ws):
     def send_ping():
         while ws.keep_running:
             ws.send_ping()
-            time.sleep(60)
+            time.sleep(5)
 
 
 # Press the green button in the gutter to run the script.
