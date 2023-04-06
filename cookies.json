@@ -1,0 +1,352 @@
+[
+  {
+    "domain": ".binance.com",
+    "expiry": 1715347054,
+    "httpOnly": false,
+    "name": "_ga_3WP50LGEEC",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "GS1.1.1680787012.1.1.1680787054.18.0.0"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1715347054,
+    "httpOnly": false,
+    "name": "_ga",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "GA1.1.1576064046.1680787010"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323054,
+    "httpOnly": false,
+    "name": "OptanonConsent",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "isGpcEnabled=0&datestamp=Thu+Apr+06+2023+16%3A17%3A34+GMT%2B0300+(%D0%92%D0%BE%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B0%D1%8F+%D0%95%D0%B2%D1%80%D0%BE%D0%BF%D0%B0%2C+%D0%BB%D0%B5%D1%82%D0%BD%D0%B5%D0%B5+%D0%B2%D1%80%D0%B5%D0%BC%D1%8F)&version=202211.1.0&isIABGlobal=false&hosts=&consentId=8bc220e8-b0f7-442c-92a8-fd92840d7e14&interactionCount=1&landingPath=NotLandingPage&groups=C0001%3A1%2CC0003%3A1%2CC0004%3A1%2CC0002%3A1&geolocation=UA%3B30&AwaitingReconsent=false"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1714483053,
+    "httpOnly": false,
+    "name": "_uetvid",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "56a9dcf0d47d11ed89f79f6d403a249c"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1680873453,
+    "httpOnly": false,
+    "name": "_uetsid",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "56a9b1c0d47d11ed984fb9231397a38f"
+  },
+  {
+    "domain": "p2p.binance.com",
+    "httpOnly": false,
+    "name": "c2c-menu-ssbt",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "true"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323050,
+    "httpOnly": false,
+    "name": "fiat-prefer-currency",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "UAH"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323044,
+    "httpOnly": false,
+    "name": "BNC-Location",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "BINANCE"
+  },
+  {
+    "domain": ".binance.com",
+    "httpOnly": true,
+    "name": "f30l",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "web.23373556.9295A208E8B611ACCD33879AB5856EEA"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1681391844,
+    "httpOnly": false,
+    "name": "logined",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "y"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1715347010,
+    "httpOnly": false,
+    "name": "bnc-uuid",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "e0637039-d253-46ae-ac15-81a05854676c"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1688563011,
+    "httpOnly": false,
+    "name": "_gcl_au",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "1.1.446271112.1680787012"
+  },
+  {
+    "domain": ".binance.com",
+    "httpOnly": true,
+    "name": "d1og",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "web.23373556.12E9C1D84967503E2E8040B7A96FE35E"
+  },
+  {
+    "domain": ".binance.com",
+    "httpOnly": false,
+    "name": "cr00",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "47E14C682CA1988C34CA6A4DDB6812AB"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1715347030,
+    "httpOnly": false,
+    "name": "se_gd",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "hsKAAUVARQNAlEIwSAA0gZZERBxYUBYVlAOBYUUdlFTWwB1NXWIc1"
+  },
+  {
+    "domain": "p2p.binance.com",
+    "httpOnly": false,
+    "name": "sys_mob",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "no"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323053,
+    "httpOnly": false,
+    "name": "source",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "referral"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1715347049,
+    "httpOnly": false,
+    "name": "sensorsdata2015jssdkcross",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "%7B%22distinct_id%22%3A%2223373556%22%2C%22first_id%22%3A%2218756b68148d4a-0bd04fc8efeaa6-1e535635-3686400-18756b68149d02%22%2C%22props%22%3A%7B%22%24latest_traffic_source_type%22%3A%22%E7%9B%B4%E6%8E%A5%E6%B5%81%E9%87%8F%22%2C%22%24latest_search_keyword%22%3A%22%E6%9C%AA%E5%8F%96%E5%88%B0%E5%80%BC_%E7%9B%B4%E6%8E%A5%E6%89%93%E5%BC%80%22%2C%22%24latest_referrer%22%3A%22%22%7D%2C%22identities%22%3A%22eyIkaWRlbnRpdHlfY29va2llX2lkIjoiMTg3NTZiNjgxNDhkNGEtMGJkMDRmYzhlZmVhYTYtMWU1MzU2MzUtMzY4NjQwMC0xODc1NmI2ODE0OWQwMiIsIiRpZGVudGl0eV9sb2dpbl9pZCI6IjIzMzczNTU2In0%3D%22%2C%22history_login_id%22%3A%7B%22name%22%3A%22%24identity_login_id%22%2C%22value%22%3A%2223373556%22%7D%2C%22%24device_id%22%3A%2218756b68148d4a-0bd04fc8efeaa6-1e535635-3686400-18756b68149d02%22%7D"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323013,
+    "httpOnly": false,
+    "name": "BNC_FV_KEY",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "33eaf21280aea8d3a371ff058968f7220a2c3b80"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1715347031,
+    "httpOnly": false,
+    "name": "se_gsd",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "RTEiATd+NSwgNyMxIyU2ChAuU1cbBgoBUlxEW1NSW1FVJFNS1"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712409429,
+    "httpOnly": false,
+    "name": "OptanonAlertBoxClosed",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "2023-04-06T13:17:09.001Z"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1680787088,
+    "httpOnly": false,
+    "name": "_gat",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "1"
+  },
+  {
+    "domain": ".binance.com",
+    "httpOnly": false,
+    "name": "se_sd",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "gkTBFQQ4YDLAgAX4OWxUgZZAQAA1TEYVlFTBYUUdlFTWwDlNXWRV1"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323053,
+    "httpOnly": false,
+    "name": "campaign",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "p2p.binance.com"
+  },
+  {
+    "domain": "p2p.binance.com",
+    "httpOnly": false,
+    "name": "common_fiat",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "UAH"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323013,
+    "httpOnly": false,
+    "name": "BNC_FV_KEY_EXPIRE",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "1680808613577"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323050,
+    "httpOnly": false,
+    "name": "userQuoteAsset",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "BTC"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1680814799,
+    "httpOnly": false,
+    "name": "sajssdk_2015_cross_new_user",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "1"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323053,
+    "httpOnly": false,
+    "name": "userPreferredCurrency",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "USD_USD"
+  },
+  {
+    "domain": ".binance.com",
+    "httpOnly": false,
+    "name": "_cq_suid",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "1.1680787012.I9Fttp4zDFzx3P1o"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1688671054,
+    "httpOnly": false,
+    "name": "_cq_duid",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "1.1680787012.I3w55k7zAt7dwHnR"
+  },
+  {
+    "domain": ".binance.com",
+    "httpOnly": true,
+    "name": "r2o1",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": true,
+    "value": "web.23373556.0042D63703E4B2A9A57AA19B06EED2D5"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1680787071,
+    "httpOnly": false,
+    "name": "_gat_UA-162512367-1",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "1"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1712323045,
+    "httpOnly": false,
+    "name": "lang",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "uk-UA"
+  },
+  {
+    "domain": ".binance.com",
+    "expiry": 1680873453,
+    "httpOnly": false,
+    "name": "_gid",
+    "path": "/",
+    "sameSite": "Lax",
+    "secure": false,
+    "value": "GA1.2.1002547421.1680787010"
+  },
+  {
+    "domain": "p2p.binance.com",
+    "httpOnly": false,
+    "name": "c2c-menu-ssct",
+    "path": "/",
+    "sameSite": "None",
+    "secure": true,
+    "value": "false"
+  }
+]
