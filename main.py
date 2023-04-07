@@ -16,6 +16,8 @@ from selenium.webdriver.common.proxy import Proxy, ProxyType
 
 
 account = "serg.chupak@gmail.com"
+#ws_url = "ws://0:8000/ws/emulator/emulator/"
+ws_url = "ws://167.235.77.8:8010/ws/emulator/emulator/"
 driver = webdriver.Chrome()
 
 
@@ -92,15 +94,13 @@ def on_open(ws):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
 
-
-
-
     logging.basicConfig()
     logger = logging.getLogger('websocket')
     logger.setLevel(logging.DEBUG)
+
     while True:
         try:
-            ws = websocket.WebSocketApp("ws://0:8000/ws/emulator/emulator/",
+            ws = websocket.WebSocketApp(ws_url,
                                         on_message=on_message,
                                         on_error=on_error,
                                         on_close=on_close,

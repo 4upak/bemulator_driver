@@ -59,7 +59,6 @@ def login(driver):
             time.sleep(1)
             continue
 
-
 def quit(webdriver):
     pass
 
@@ -76,8 +75,6 @@ def add_payment_method(driver,account_email,card_number,card_holder_name,bank_na
 
     buttons = driver.find_elements(By.XPATH,"//button[contains(text(),'Delete')]")
 
-    #find all buttons with text Delete
-    #find elements by xpath using Bi
     print(f"{len(buttons)} payment methods found")
 
 
