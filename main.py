@@ -45,6 +45,7 @@ def on_message(ws, message):
 
                 if str(action_account) == str(account):
                     driver = login(driver)
+                    driver = get_ballance(driver, action_account)
                 else:
                     print(action_account + " != " + account)
 
@@ -59,6 +60,8 @@ def on_message(ws, message):
                     driver = add_payment_method(driver,action_account, data['card_number'], data['name_on_card'], data['bank_name'])
                 else:
                     print(action_account + " != " + account)
+
+
 
     except Exception as e:
         print(e)

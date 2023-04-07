@@ -11,7 +11,7 @@ def get_mfa_code(email):
         'email': email,
     }
     print(post_data)
-    response = requests.post('http://0.0.0.0:8000/bemulator/api/get_binance_auth_by_mail/', data=post_data)
+    response = requests.post('https://services.digichanger.pro/bemulator/api/get_binance_auth_by_mail/', data=post_data)
     print(response.json())
     try:
         return response.json()['code']
@@ -58,6 +58,37 @@ def login(driver):
             print('Still waiting for login')
             time.sleep(1)
             continue
+
+def get_ballance(driver, account_email):
+    url = 'https://www.binance.com/en/my/wallet/account/overview'
+    driver.get(url)
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.presence_of_element_located((By.ID, 'walletOverview_transaction_history_aLink')))
+    time.sleep(3)
+    #get text from div with id =balance-text
+    balance = driver.find_element(By.ID, 'balance-text').text
+    balance = balance.split(' ')[0]
+    #get bitcoin price in usd
+    url = 'https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT'
+    response = requests.get(url)
+    btc_price = float(response.json()['price'])
+    print (f"BTC price: {btc_price}")
+
+    balance_in_usd = float(balance) * btc_price
+    print (f"Balance in USD: {balance_in_usd}")
+
+    post_data = {
+        'balance': balance_in_usd,
+        'email': account_email,
+    }
+    print(post_data)
+    result = requests.post('https://services.digichanger.pro/bemulator/api/update_binance_ballance/', data=post_data)
+    print(result.json())
+    return driver
+
+
+
+
 
 def quit(webdriver):
     pass
