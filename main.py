@@ -54,7 +54,7 @@ def on_message(ws, message):
                 print(data['account'])
                 action_account = data['account']
                 if str(action_account) == str(account):
-                    driver = add_payment_method(driver, data['card_number'], data['name_on_card'], data['bank_name'])
+                    driver = add_payment_method(driver,action_account, data['card_number'], data['name_on_card'], data['bank_name'])
                 else:
                     print(action_account + " != " + account)
 

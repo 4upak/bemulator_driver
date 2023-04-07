@@ -3,9 +3,21 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import requests
+import json
 
-def get_mfa_code():
-    return input('Enter MFA code: ')
+def get_mfa_code(email):
+    post_data = {
+        'email': email,
+    }
+    print(post_data)
+    response = requests.post('http://0.0.0.0:8000/bemulator/api/get_binance_auth_by_mail/', data=post_data)
+    print(response.json())
+    try:
+        return response.json()['code']
+    except Exception as e:
+        print(e)
+        return False
 
 def login(driver):
     driver.get('https:///p2p.binance.com')
@@ -51,10 +63,10 @@ def login(driver):
 def quit(webdriver):
     pass
 
-def add_payment_method(driver,card_number,card_holder_name,bank_name):
+def add_payment_method(driver,account_email,card_number,card_holder_name,bank_name):
     #delete old payment methods
+    print("Account email: " + account_email)
     driver.get('https://p2p.binance.com/en/userCenter#payment')
-
 
     wait = WebDriverWait(driver, 20)
     wait.until(EC.presence_of_element_located((By.ID, "tab-payment")))
@@ -65,9 +77,6 @@ def add_payment_method(driver,card_number,card_holder_name,bank_name):
     buttons = driver.find_elements(By.XPATH,"//button[contains(text(),'Delete')]")
 
     #find all buttons with text Delete
-
-
-
     #find elements by xpath using Bi
     print(f"{len(buttons)} payment methods found")
 
@@ -98,8 +107,13 @@ def add_payment_method(driver,card_number,card_holder_name,bank_name):
     wait.until(EC.presence_of_element_located((By.ID, 'mfa-google-input')))
 
     mfa_input = driver.find_element(By.ID, 'mfa-google-input')
-    mfa_code = get_mfa_code()
-    mfa_input.send_keys(mfa_code)
+    mfa_code = get_mfa_code(account_email)
+    if mfa_code:
+        mfa_input.send_keys(mfa_code)
+    else:
+        print('MFA code not found')
+        mfa_code = input('Enter MFA code: ')
+        mfa_input.send_keys(mfa_code)
 
     print("MFA code entered")
     wait = WebDriverWait(driver, 10)
@@ -198,24 +212,6 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     wait = WebDriverWait(webdriver, 10)
     wait.until(EC.presence_of_element_located((By.ID,"C2C_p2pMyAdsList_management_btn_edit")))
     print("Bid added")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def get_order_list(webdriver):
     pass
