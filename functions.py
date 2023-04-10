@@ -186,7 +186,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
 
     wait = WebDriverWait(driver, 10)
     wait.until(EC.presence_of_element_located((By.ID, 'C2C_p2pMyAdsList_filter_btn_filter')))
-    time.sleep(5)
+    time.sleep(3)
 
     print("Checking for other bid")
     try:
@@ -230,7 +230,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         print("Sell button not found")
         return driver
 
-    time.sleep(5)
+    time.sleep(3)
     try:
 
 
@@ -259,7 +259,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         print("Setting currency failed")
         return driver
 
-    time.sleep(5)
+    time.sleep(3)
     try:
         driver.find_element(By.ID,"C2C_p2pPost_step1_btn_next").click()
         print("Next button clicked")
@@ -269,7 +269,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         return driver
 
     #find input with name="initAmount"
-    time.sleep(5)
+    time.sleep(3)
     try:
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.NAME, "initAmount")))
@@ -283,7 +283,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         print("Amount input not found")
         return driver
 
-    time.sleep(5)
+    time.sleep(3)
     try:
         input = driver.find_element(By.NAME, "minOrderPrice")
         input.clear()
@@ -295,7 +295,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         return driver
     #fin button with css selector 'form > div:nth-child(3) > div > button'
 
-    time.sleep(5)
+    time.sleep(3)
     try:
         # fin button with css selector 'form > div:nth-child(3) > div > button'
         input = driver.find_element(By.CSS_SELECTOR, "form > div:nth-child(3) > div > button")
@@ -317,7 +317,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         print("Payment method selection failed")
         return driver
 
-    time.sleep(5)
+    time.sleep(3)
     try:
         driver.find_element(By.ID, "C2C_p2pPost_step2_btn_next").click()
         print("Next button clicked")
@@ -340,8 +340,8 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     try:
     # click on button with id "C2C_p2pPost_step3_btn_publish"
         driver.find_element(By.ID, "C2C_p2pPost_step3_btn_publish").click()
-        print("Publish button will be clicked in 30 seconds")
-        time.sleep(30)
+        print("Publish button will be clicked in 10 seconds")
+        time.sleep(10)
 
         #click on class with text "Confirm to Post"
         driver.find_element(By.CSS_SELECTOR,"div.css-1u2pn8e button.css-pawbdq").click()
