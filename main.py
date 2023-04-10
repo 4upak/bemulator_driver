@@ -45,7 +45,7 @@ def on_message(ws, message):
 
                 if str(action_account) == str(account):
                     driver = login(driver)
-                    driver = get_ballance(driver, action_account)
+                    #driver = get_ballance(driver, action_account)
                 else:
                     print(action_account + " != " + account)
 
@@ -58,6 +58,16 @@ def on_message(ws, message):
                 action_account = data['account']
                 if str(action_account) == str(account):
                     driver = add_payment_method(driver,action_account, data['card_number'], data['name_on_card'], data['bank_name'])
+                else:
+                    print(action_account + " != " + account)
+
+            if action == 'create_bid':
+                print(action)
+                data = message_dict['data']
+                print(data['account'])
+                action_account = data['account']
+                if str(action_account) == str(account):
+                    driver = add_bid(driver, data['currency'],data['amount'], data['min_amount'], data['autoreplay_text'])
                 else:
                     print(action_account + " != " + account)
 

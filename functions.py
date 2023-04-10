@@ -151,95 +151,168 @@ def add_payment_method(driver,account_email,card_number,card_holder_name,bank_na
     return driver
 
 def add_bid(driver, currency, amount, min_amount, autoreplay_text):
-    url = 'https://p2p.binance.com/en/myads?type=normal&code=default'
+    url = 'https://p2p.binance.com/en/myads'
     driver.get(url)
 
-    wait = WebDriverWait(webdriver, 10)
+    wait = WebDriverWait(driver, 10)
     wait.until(EC.presence_of_element_located((By.ID, 'C2C_p2pMyAdsList_filter_btn_filter')))
-    time.sleep(4)
+    time.sleep(5)
 
-    close_element = driver.find_element(By.ID, "C2C_p2pMyAdsList_management_btn_close")
-    if close_element:
-        print("Other bid found")
-        close_element.click()
-        print("Close element clicked")
+    print("Checking for other bid")
+    try:
 
-        wait = WebDriverWait(webdriver, 10)
-        wait.until(EC.presence_of_element_located((By.XPATH,"//div[contains(text(),'Close')]")))
+        close_element = driver.find_element(By.ID, "C2C_p2pMyAdsList_management_btn_close")
+        if close_element:
+            print("Other bid found")
+            close_element.click()
+            print("Close element clicked")
 
-        driver.find_element(By.XPATH,"//div[contains(text(),'Close')]").click()
-        print("Close button clicked")
+            wait = WebDriverWait(driver, 10)
+            wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Close')]")))
 
-    wait = WebDriverWait(webdriver, 10)
+            driver.find_element(By.XPATH, "//div[contains(text(),'Close')]").click()
+            print("Close button clicked")
+    except Exception as e:
+        print(e)
+
+    print("No other bid found")
+
+    wait = WebDriverWait(driver, 10)
     wait.until(EC.presence_of_element_located((By.ID, 'C2C_p2pNav_btn_postNewAd')))
 
-    EC.presence_of_element_located((By.ID, 'C2C_p2pNav_btn_postNewAd')).click()
-    print("New bid button clicked")
+    try:
+        driver.find_element(By.ID, 'C2C_p2pNav_btn_postNewAd').click()
+        print("New bid button clicked")
+    except Exception as e:
+        print(e)
+        print("New bid button not found")
+        return driver
 
-    wait = WebDriverWait(webdriver, 10)
+    wait = WebDriverWait(driver, 10)
     wait.until(EC.presence_of_element_located((By.XPATH,"//div[contains(text(),'I want to sell')]")))
 
-    driver.find_element(By.XPATH,"//div[contains(text(),'I want to sell')]").click()
+    try:
+        driver.find_element(By.XPATH,"//div[contains(text(),'I want to sell')]").click()
+    except Exception as e:
+        print(e)
+        print("Sell button not found")
+        return driver
 
-    wait = WebDriverWait(webdriver, 10)
-    wait.until(EC.presence_of_element_located((By.ID, "C2C_p2pPost_step1_price_input")))
+    time.sleep(10)
+    try:
 
-    print("Currency input found")
-    input = driver.find_element(By.ID, "C2C_p2pPost_step1_price_input")
-    input.send_keys(currency)
-    print("Currency entered")
 
-    driver.find_element(By.ID,"C2C_p2pPost_step1_btn_next").click()
-    print("Next button clicked")
+        try:
+            input = driver.find_element(By.ID, "C2C_p2pPost_step1_price_input")
+            print("Currency input found")
+            print("Try to set currency: " + str(currency))
+        except Exception as e:
+            print(e)
+            print("Currency input not found")
+            return driver
+
+        #input.clear()
+        #input.send_keys(float(currency))
+
+        driver.execute_script("arguments[0].value = arguments[1];", input, currency)
+        print("Currency entered")
+    except Exception as e:
+        print(e)
+        print("Setting currency failed")
+        return driver
+
+    time.sleep(5)
+    try:
+        driver.find_element(By.ID,"C2C_p2pPost_step1_btn_next").click()
+        print("Next button clicked")
+    except Exception as e:
+        print(e)
+        print("Next button not found")
+        return driver
 
     #find input with name="initAmount"
-    wait = WebDriverWait(webdriver, 10)
-    wait.until(EC.presence_of_element_located((By.NAME, "initAmount")))
-    print("Amount input found")
+    time.sleep(5)
+    try:
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_element_located((By.NAME, "initAmount")))
+        print("Amount input found")
+        input = driver.find_element(By.NAME, "initAmount")
+        input.send_keys(amount)
+        print("Amount entered")
+    except Exception as e:
+        print(e)
+        print("Amount input not found")
+        return driver
 
-    input = driver.find_element(By.NAME, "initAmount")
-    input.send_keys(amount)
-    print("Amount entered")
-
-    input = driver.find_element(By.NAME, "minOrderPrice")
-    input.send_keys(min_amount)
-    print("Min amount entered")
-
+    time.sleep(5)
+    try:
+        input = driver.find_element(By.NAME, "minOrderPrice")
+        input.send_keys(min_amount)
+        print("Min amount entered")
+    except Exception as e:
+        print(e)
+        print("Min amount input not found")
+        return driver
     #fin button with css selector 'from button[data-bn-type="button"]'
-    driver.find_element(By.CSS_SELECTOR, 'button[data-bn-type="button"]').click()
+    time.sleep(5)
+    try:
+        driver.find_element(By.CSS_SELECTOR, 'button[data-bn-type="button"]').click()
 
-    wait = WebDriverWait(webdriver, 10)
-    wait.until(EC.presence_of_element_located((By.CLASS_NAME,"SellPaymentForm__StyledCard-c6pg06-0")))
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_element_located((By.CLASS_NAME,"SellPaymentForm__StyledCard-c6pg06-0")))
+    except Exception as e:
+        print(e)
+        print("Next button not found")
+        return driver
 
-    driver.find_element(By.CLASS_NAME,"SellPaymentForm__StyledCard-c6pg06-0").click()
-    time.sleep(1)
+    time.sleep(5)
+    try:
+        driver.find_element(By.CLASS_NAME,"SellPaymentForm__StyledCard-c6pg06-0").click()
+        time.sleep(1)
 
-    wait = WebDriverWait(webdriver, 10)
-    wait.until(EC.presence_of_element_located((By.ID, "C2C_p2pPost_step2_btn_next")))
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_element_located((By.ID, "C2C_p2pPost_step2_btn_next")))
+    except Exception as e:
+        print(e)
+        print("Payment method not found")
+        return driver
 
-    driver.find_element(By.ID, "C2C_p2pPost_step2_btn_next").click()
-    print("Next button clicked")
+    time.sleep(5)
+    try:
+        driver.find_element(By.ID, "C2C_p2pPost_step2_btn_next").click()
+        print("Next button clicked")
 
-    #find textarea with name="autoReplyMsg"
-    wait = WebDriverWait(webdriver, 10)
-    wait.until(EC.presence_of_element_located((By.NAME, "autoReplyMsg")))
-    print("Auto reply input found")
+        #find textarea with name="autoReplyMsg"
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_element_located((By.NAME, "autoReplyMsg")))
+        print("Auto reply input found")
 
-    textarea = driver.find_element(By.NAME, "autoReplyMsg")
-    textarea.send_keys(autoreplay_text)
-    time.sleep(1)
+        textarea = driver.find_element(By.NAME, "autoReplyMsg")
+        textarea.send_keys(autoreplay_text)
+        time.sleep(1)
+    except Exception as e:
+        print(e)
+        print("Auto reply input not found")
+        return driver
 
+    time.sleep(5)
+    try:
     # click on button with id "C2C_p2pPost_step3_btn_publish"
-    driver.find_element(By.ID, "C2C_p2pPost_step3_btn_publish").click()
-    time.sleep(1)
+        driver.find_element(By.ID, "C2C_p2pPost_step3_btn_publish").click()
+        time.sleep(1)
 
-    #click on class with text "Confirm to Post"
-    driver.find_element(By.XPATH,"//div[contains(text(),'Confirm to Post')]").click()
-    print("Confirm to post clicked")
+        #click on class with text "Confirm to Post"
+        driver.find_element(By.XPATH,"//div[contains(text(),'Confirm to Post')]").click()
+        print("Confirm to post clicked")
 
-    wait = WebDriverWait(webdriver, 10)
-    wait.until(EC.presence_of_element_located((By.ID,"C2C_p2pMyAdsList_management_btn_edit")))
-    print("Bid added")
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.presence_of_element_located((By.ID,"C2C_p2pMyAdsList_management_btn_edit")))
+        print("Bid added")
+    except Exception as e:
+        print(e)
+        print("Bid not added")
+        return driver
+    return driver
 
 def get_order_list(webdriver):
     pass
