@@ -5,6 +5,9 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import requests
 import json
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
+import pyperclip
 
 def get_mfa_code(email):
     post_data = {
@@ -94,6 +97,33 @@ def quit(webdriver):
     pass
 
 def add_payment_method(driver,account_email,card_number,card_holder_name,bank_name):
+    url = 'https://p2p.binance.com/en/myads'
+    driver.get(url)
+
+    wait = WebDriverWait(driver, 10)
+    wait.until(EC.presence_of_element_located((By.ID, 'C2C_p2pMyAdsList_filter_btn_filter')))
+    time.sleep(5)
+
+    print("Checking for other bid")
+    try:
+
+        close_element = driver.find_element(By.ID, "C2C_p2pMyAdsList_management_btn_close")
+        if close_element:
+            print("Other bid found")
+            close_element.click()
+            print("Close element clicked")
+
+            time.sleep(1)
+
+            driver.find_element(By.CSS_SELECTOR, "div.css-vurnku button.css-18jinle").click()
+            print("Close button clicked")
+
+            time.sleep(1)
+            driver.find_element(By.CSS_SELECTOR,
+                                "div.styled__ButtonWrap-sc-1icz59t-3.fouYfr.css-4cffwv > button.css-18jinle").click()
+
+    except Exception as e:
+        print(e)
     #delete old payment methods
     print("Account email: " + account_email)
     driver.get('https://p2p.binance.com/en/userCenter#payment')
@@ -167,18 +197,20 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
             close_element.click()
             print("Close element clicked")
 
-            wait = WebDriverWait(driver, 10)
-            wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Close')]")))
+            time.sleep(1)
 
-            driver.find_element(By.XPATH, "//div[contains(text(),'Close')]").click()
+            driver.find_element(By.CSS_SELECTOR, "div.css-vurnku button.css-18jinle").click()
             print("Close button clicked")
+
+            time.sleep(1)
+            driver.find_element(By.CSS_SELECTOR, "div.styled__ButtonWrap-sc-1icz59t-3.fouYfr.css-4cffwv > button.css-18jinle").click()
+
     except Exception as e:
         print(e)
 
     print("No other bid found")
 
-    wait = WebDriverWait(driver, 10)
-    wait.until(EC.presence_of_element_located((By.ID, 'C2C_p2pNav_btn_postNewAd')))
+    time.sleep(3)
 
     try:
         driver.find_element(By.ID, 'C2C_p2pNav_btn_postNewAd').click()
@@ -198,7 +230,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         print("Sell button not found")
         return driver
 
-    time.sleep(10)
+    time.sleep(5)
     try:
 
 
@@ -206,6 +238,10 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
             input = driver.find_element(By.ID, "C2C_p2pPost_step1_price_input")
             print("Currency input found")
             print("Try to set currency: " + str(currency))
+
+            ActionChains(driver).double_click(input).perform()
+            ActionChains(driver).send_keys(Keys.DELETE).send_keys(currency).perform()
+
         except Exception as e:
             print(e)
             print("Currency input not found")
@@ -214,7 +250,9 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         #input.clear()
         #input.send_keys(float(currency))
 
-        driver.execute_script("arguments[0].value = arguments[1];", input, currency)
+
+
+
         print("Currency entered")
     except Exception as e:
         print(e)
@@ -237,6 +275,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         wait.until(EC.presence_of_element_located((By.NAME, "initAmount")))
         print("Amount input found")
         input = driver.find_element(By.NAME, "initAmount")
+        input.clear()
         input.send_keys(amount)
         print("Amount entered")
     except Exception as e:
@@ -247,34 +286,35 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     time.sleep(5)
     try:
         input = driver.find_element(By.NAME, "minOrderPrice")
+        input.clear()
         input.send_keys(min_amount)
         print("Min amount entered")
     except Exception as e:
         print(e)
         print("Min amount input not found")
         return driver
-    #fin button with css selector 'from button[data-bn-type="button"]'
+    #fin button with css selector 'form > div:nth-child(3) > div > button'
+
     time.sleep(5)
     try:
-        driver.find_element(By.CSS_SELECTOR, 'button[data-bn-type="button"]').click()
+        # fin button with css selector 'form > div:nth-child(3) > div > button'
+        input = driver.find_element(By.CSS_SELECTOR, "form > div:nth-child(3) > div > button")
+        input.click()
+        time.sleep(2)
 
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.CLASS_NAME,"SellPaymentForm__StyledCard-c6pg06-0")))
-    except Exception as e:
-        print(e)
-        print("Next button not found")
-        return driver
 
-    time.sleep(5)
-    try:
-        driver.find_element(By.CLASS_NAME,"SellPaymentForm__StyledCard-c6pg06-0").click()
+        driver.find_element(By.CLASS_NAME, "SellPaymentForm__StyledCard-c6pg06-0").click()
         time.sleep(1)
 
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.ID, "C2C_p2pPost_step2_btn_next")))
+
+
     except Exception as e:
         print(e)
-        print("Payment method not found")
+        print("Payment method selection failed")
         return driver
 
     time.sleep(5)
@@ -288,6 +328,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         print("Auto reply input found")
 
         textarea = driver.find_element(By.NAME, "autoReplyMsg")
+
         textarea.send_keys(autoreplay_text)
         time.sleep(1)
     except Exception as e:
@@ -299,10 +340,11 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     try:
     # click on button with id "C2C_p2pPost_step3_btn_publish"
         driver.find_element(By.ID, "C2C_p2pPost_step3_btn_publish").click()
-        time.sleep(1)
+        print("Publish button will be clicked in 30 seconds")
+        time.sleep(30)
 
         #click on class with text "Confirm to Post"
-        driver.find_element(By.XPATH,"//div[contains(text(),'Confirm to Post')]").click()
+        driver.find_element(By.CSS_SELECTOR,"div.css-1u2pn8e button.css-pawbdq").click()
         print("Confirm to post clicked")
 
         wait = WebDriverWait(driver, 10)
