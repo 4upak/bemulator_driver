@@ -184,8 +184,6 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     url = 'https://p2p.binance.com/en/myads'
     driver.get(url)
 
-    wait = WebDriverWait(driver, 10)
-    wait.until(EC.presence_of_element_located((By.ID, 'C2C_p2pMyAdsList_filter_btn_filter')))
     time.sleep(3)
 
     print("Checking for other bid")
@@ -220,11 +218,10 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         print("New bid button not found")
         return driver
 
-    wait = WebDriverWait(driver, 10)
-    wait.until(EC.presence_of_element_located((By.XPATH,"//div[contains(text(),'I want to sell')]")))
 
+    time.sleep(10)
     try:
-        driver.find_element(By.XPATH,"//div[contains(text(),'I want to sell')]").click()
+        driver.find_element(By.CLASS_NAME,"css-1wk26uy").click()
     except Exception as e:
         print(e)
         print("Sell button not found")
@@ -340,8 +337,8 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     try:
     # click on button with id "C2C_p2pPost_step3_btn_publish"
         driver.find_element(By.ID, "C2C_p2pPost_step3_btn_publish").click()
-        print("Publish button will be clicked in 10 seconds")
-        time.sleep(10)
+        print("Publish button will be clicked in 5 seconds")
+        time.sleep(5)
 
         #click on class with text "Confirm to Post"
         driver.find_element(By.CSS_SELECTOR,"div.css-1u2pn8e button.css-pawbdq").click()
