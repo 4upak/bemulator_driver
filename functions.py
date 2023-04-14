@@ -233,6 +233,9 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
 
         try:
             input = driver.find_element(By.ID, "C2C_p2pPost_step1_price_input")
+            #scroll to element
+            driver.execute_script("arguments[0].scrollIntoView();", input)
+
             print("Currency input found")
             print("Try to set currency: " + str(currency))
 
