@@ -66,10 +66,13 @@ def on_message(ws, message):
                 data = message_dict['data']
                 print(data['account'])
                 action_account = data['account']
+                digichanger_order_id = data['digichanger_order_id']
                 if str(action_account) == str(account):
                     driver = add_bid(driver, data['currency'],data['amount'], data['min_amount'], data['autoreplay_text'])
+                    print(f"{digichanger_order_id} created")
                 else:
                     print(action_account + " != " + account)
+
 
 
 

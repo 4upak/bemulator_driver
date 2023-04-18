@@ -247,10 +247,6 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
             print("Currency input not found")
             return driver
 
-        #input.clear()
-        #input.send_keys(float(currency))
-
-
 
 
         print("Currency entered")
@@ -275,6 +271,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         wait.until(EC.presence_of_element_located((By.NAME, "initAmount")))
         print("Amount input found")
         input = driver.find_element(By.NAME, "initAmount")
+        time.sleep(1)
         input.clear()
         input.send_keys(amount)
         print("Amount entered")
@@ -283,9 +280,11 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         print("Amount input not found")
         return driver
 
-    time.sleep(3)
+    time.sleep(1)
     try:
         input = driver.find_element(By.NAME, "minOrderPrice")
+        input.clear()
+        time.sleep(1)
         input.clear()
         input.send_keys(min_amount)
         print("Min amount entered")
