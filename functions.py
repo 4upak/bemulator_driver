@@ -364,4 +364,36 @@ def get_order_detail(webdriver):
 def accept_order(webdriver):
     pass
 
+def get_created_bid_data(driver):
+    #get text by class css-plprkm
+    result = {}
+    try:
+        bid_id = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-plprkm").text
+        result["ad_number"] = bid_id
+    except Exception as e:
+        print(e)
+        print("ad_number not found")
+
+    try:
+        amount = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-hjmza4").text
+        result["amount"] = amount
+    except Exception as e:
+        print(e)
+        print("amount not found")
+
+    try:
+        price = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-x56ygg").text
+        result["price"] = float(price)
+    except Exception as e:
+        print(e)
+        print("price not found")
+
+    try:
+        type = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-1v10lrq").text
+        result["type"] = type
+    except Exception as e:
+        print(e)
+        print("type not found")
+
+    return result
 
