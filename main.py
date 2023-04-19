@@ -81,6 +81,36 @@ def on_message(ws, message):
                 else:
                     print(action_account + " != " + account)
 
+            if action == 'post_bid':
+                print(action)
+                data = message_dict['data']
+                print(data['account'])
+                action_account = data['account']
+                if str(action_account) == str(account):
+                    driver = add_payment_method(driver, action_account, data['card_number'], data['name_on_card'],
+                                                data['bank_name'])
+                else:
+                    print(action_account + " != " + account)
+
+                digichanger_order_id = data['digichanger_order_id']
+                if str(action_account) == str(account):
+                    driver = add_bid(driver, data['currency'], data['amount'], data['min_amount'],
+                                     data['autoreplay_text'])
+                    print(f"{digichanger_order_id} created")
+                    posted_bid_data = get_created_bid_data(driver)
+                    print(posted_bid_data)
+                    posted_bid_data['digichanger_order_id'] = digichanger_order_id
+                    posted_bid_data['account_email'] = action_account
+                    print(posted_bid_data)
+                    post_request = requests.post('https://services.digichanger.pro/bemulator/api/binance_bid/add/',
+                                                 data=posted_bid_data)
+                    print(vars(post_request))
+
+                else:
+                    print(action_account + " != " + account)
+
+
+
 
 
 
