@@ -93,6 +93,7 @@ def on_message(ws, message):
                     print(action_account + " != " + account)
 
                 digichanger_order_id = data['digichanger_order_id']
+                time.sleep(3)
                 if str(action_account) == str(account):
                     driver = add_bid(driver, data['currency'], data['amount'], data['min_amount'],
                                      data['autoreplay_text'])
