@@ -242,6 +242,15 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
             ActionChains(driver).double_click(input).perform()
             ActionChains(driver).send_keys(Keys.DELETE).send_keys(currency).perform()
 
+            input_value = input.get_attribute('value')
+
+            while input_value != currency:
+                ActionChains(driver).double_click(input).perform()
+                ActionChains(driver).send_keys(Keys.DELETE).send_keys(currency).perform()
+                input_value = input.get_attribute('value')
+
+            print("Currency input value: " + input_value)
+
         except Exception as e:
             print(e)
             print("Currency input not found")
@@ -274,7 +283,14 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         time.sleep(1)
         input.clear()
         input.send_keys(amount)
-        print("Amount entered")
+
+        input_value = input.get_attribute('value')
+        while input_value != amount:
+            input.clear()
+            input.send_keys(amount)
+            input_value = input.get_attribute('value')
+        print("Amount entered: " + input_value)
+
     except Exception as e:
         print(e)
         print("Amount input not found")
