@@ -244,7 +244,8 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
 
             input_value = input.get_attribute('value')
 
-            while input_value != currency:
+            while float(input_value) != float(currency):
+                print(input_value + "!="+ currency)
                 ActionChains(driver).double_click(input).perform()
                 ActionChains(driver).send_keys(Keys.DELETE).send_keys(currency).perform()
                 input_value = input.get_attribute('value')
@@ -285,7 +286,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         input.send_keys(amount)
 
         input_value = input.get_attribute('value')
-        while input_value != amount:
+        while float(input_value) != float(amount):
             input.clear()
             input.send_keys(amount)
             input_value = input.get_attribute('value')
