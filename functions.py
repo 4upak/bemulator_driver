@@ -285,11 +285,12 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         input.clear()
         input.send_keys(amount)
 
-        input_value = input.get_attribute('value')
+
         while float(input_value) != float(amount):
-            input.clear()
             input.send_keys(amount)
+            time.sleep(2)
             input_value = input.get_attribute('value')
+
         print("Amount entered: " + input_value)
 
     except Exception as e:
