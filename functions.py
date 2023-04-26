@@ -277,6 +277,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     #find input with name="initAmount"
     time.sleep(3)
     try:
+        amount = round(float(amount), 2)
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.NAME, "initAmount")))
         print("Amount input found")
@@ -285,9 +286,14 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         input.clear()
         input.send_keys(amount)
 
+        input_value = input.get_attribute('value')
+
 
         while float(input_value) != float(amount):
+            print(str(input_value) + "!=" + str(amount))
+            input.clear()
             input.send_keys(amount)
+
             time.sleep(2)
             input_value = input.get_attribute('value')
 
