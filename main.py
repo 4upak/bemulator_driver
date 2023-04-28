@@ -15,8 +15,8 @@ from seleniumwire import webdriver
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 
 
-#account = "serg.chupak@gmail.com"
-account = "avshapes@gmail.com"
+account = "serg.chupak@gmail.com"
+#account = "avshapes@gmail.com"
 #ws_url = "ws://0:8000/ws/emulator/emulator/"
 ws_url = "ws://167.235.77.8:8010/ws/emulator/emulator/"
 driver = webdriver.Chrome()
@@ -150,8 +150,7 @@ def on_open(ws):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    global account
-    account = input("Enter account email: ")
+
     logging.basicConfig()
     logger = logging.getLogger('websocket')
     logger.setLevel(logging.DEBUG)
