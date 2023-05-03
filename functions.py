@@ -400,7 +400,7 @@ def get_created_bid_data(driver):
 
     try:
         amount = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-hjmza4").text
-        result["amount"] = amount
+        result["amount"] = amount.replace(',','')
     except Exception as e:
         print(e)
         print("amount not found")
