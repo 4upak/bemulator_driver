@@ -99,7 +99,7 @@ def on_message(ws, message):
                     driver = add_bid(driver, data['currency'], data['amount'], data['min_amount'],
                                      data['autoreplay_text'])
                     print(f"{digichanger_order_id} created")
-                    time.sleep(5)
+                    time.sleep(10)
                     posted_bid_data = get_created_bid_data(driver)
                     print(posted_bid_data)
                     posted_bid_data['digichanger_order_id'] = digichanger_order_id
