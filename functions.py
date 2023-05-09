@@ -7,7 +7,6 @@ import requests
 import json
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-import pyperclip
 
 def get_mfa_code(email):
     post_data = {
@@ -22,7 +21,7 @@ def get_mfa_code(email):
         print(e)
         return False
 
-def login(driver):
+def login(driver,account_email):
     driver.get('https:///p2p.binance.com')
     while True:
         try:
@@ -38,11 +37,13 @@ def login(driver):
                 break
         except Exception as e:
             print('Wair for login button')
+            send_notification(account_email, 'Wair for login button')
             time.sleep(1)
             continue
 
         try:
             print('Checking for coockies button')
+            send_notification(account_email, 'Checking for coockies button')
             accept_coockies_button = driver.find_element(By.XPATH, "//button[contains(text(),'I accept')]")
             if accept_coockies_button:
                 accept_coockies_button.click()
@@ -56,9 +57,11 @@ def login(driver):
             if cabinet:
                 driver.get('https:///p2p.binance.com')
                 print('Login success')
+                send_notification(account_email, 'Login success')
                 return driver
         except Exception as e:
             print('Still waiting for login')
+            send_notification(account_email, 'Still waiting for login')
             time.sleep(1)
             continue
 
@@ -110,13 +113,17 @@ def add_payment_method(driver,account_email,card_number,card_holder_name,bank_na
         close_element = driver.find_element(By.ID, "C2C_p2pMyAdsList_management_btn_close")
         if close_element:
             print("Other bid found")
+            send_notification(account_email, "Other bid found")
             close_element.click()
             print("Close element clicked")
+            send_notification(account_email, "Close element clicked")
+
 
             time.sleep(1)
 
             driver.find_element(By.CSS_SELECTOR, "div.css-vurnku button.css-18jinle").click()
             print("Close button clicked")
+            send_notification(account_email, "Close button clicked")
 
             time.sleep(1)
             driver.find_element(By.CSS_SELECTOR,
@@ -126,17 +133,21 @@ def add_payment_method(driver,account_email,card_number,card_holder_name,bank_na
         print(e)
     #delete old payment methods
     print("Account email: " + account_email)
+    send_notification(account_email, "Account email: " + account_email)
     driver.get('https://p2p.binance.com/en/userCenter#payment')
+
 
     wait = WebDriverWait(driver, 20)
     wait.until(EC.presence_of_element_located((By.ID, "tab-payment")))
     print("Payment methods page loaded")
+    send_notification(account_email, "Payment methods page loaded")
 
     time.sleep(5)
 
     buttons = driver.find_elements(By.XPATH,"//button[contains(text(),'Delete')]")
 
     print(f"{len(buttons)} payment methods found")
+    send_notification(account_email, f"{len(buttons)} payment methods found")
 
 
     for button in buttons:
@@ -146,6 +157,7 @@ def add_payment_method(driver,account_email,card_number,card_holder_name,bank_na
         time.sleep(2)
 
     print("All payment methods deleted")
+    send_notification(account_email, "All payment methods deleted")
 
     url = f"https://p2p.binance.com/en/payment/add/{bank_name}"
     driver.get(url)
@@ -167,38 +179,47 @@ def add_payment_method(driver,account_email,card_number,card_holder_name,bank_na
     mfa_input = driver.find_element(By.ID, 'mfa-google-input')
     mfa_code = get_mfa_code(account_email)
     if mfa_code:
+        send_notification(account_email, "MFA code found")
         mfa_input.send_keys(mfa_code)
     else:
         print('MFA code not found')
+        send_notification(account_email, "MFA code not found")
         mfa_code = input('Enter MFA code: ')
         mfa_input.send_keys(mfa_code)
 
     print("MFA code entered")
+    send_notification(account_email, "MFA code entered")
     wait = WebDriverWait(driver, 10)
     wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'PaymentMethodForm__form_wrapper')))
     print("Payment method added")
+    send_notification(account_email, "Payment method added")
 
     return driver
 
-def add_bid(driver, currency, amount, min_amount, autoreplay_text):
+def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email):
     url = 'https://p2p.binance.com/en/myads'
     driver.get(url)
 
     time.sleep(3)
 
     print("Checking for other bid")
+    send_notification(account_email, "Checking for other bid")
+
     try:
 
         close_element = driver.find_element(By.ID, "C2C_p2pMyAdsList_management_btn_close")
         if close_element:
             print("Other bid found")
+            send_notification(account_email, "Other bid found")
             close_element.click()
             print("Close element clicked")
+            send_notification(account_email, "Close element clicked")
 
             time.sleep(1)
 
             driver.find_element(By.CSS_SELECTOR, "div.css-vurnku button.css-18jinle").click()
             print("Close button clicked")
+            send_notification(account_email, "Close button clicked")
 
             time.sleep(1)
             driver.find_element(By.CSS_SELECTOR, "div.styled__ButtonWrap-sc-1icz59t-3.fouYfr.css-4cffwv > button.css-18jinle").click()
@@ -207,15 +228,18 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         print(e)
 
     print("No other bid found")
+    send_notification(account_email, "No other bid found")
 
     time.sleep(3)
 
     try:
         driver.find_element(By.ID, 'C2C_p2pNav_btn_postNewAd').click()
         print("New bid button clicked")
+        send_notification(account_email, "New bid button clicked")
     except Exception as e:
         print(e)
         print("New bid button not found")
+        send_notification(account_email, "New bid button not found")
         return driver
 
 
@@ -225,6 +249,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     except Exception as e:
         print(e)
         print("Sell button not found")
+        send_notification(account_email, "Sell button not found")
         return driver
 
     time.sleep(3)
@@ -237,7 +262,9 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
             driver.execute_script("arguments[0].scrollIntoView();", input)
 
             print("Currency input found")
+            send_notification(account_email, "Currency input found")
             print("Try to set currency: " + str(currency))
+            send_notification(account_email, "Try to set currency: " + str(currency))
 
             ActionChains(driver).double_click(input).perform()
             ActionChains(driver).send_keys(Keys.DELETE).send_keys(currency).perform()
@@ -251,27 +278,33 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
                 input_value = input.get_attribute('value')
 
             print("Currency input value: " + input_value)
+            send_notification(account_email, "Currency input value: " + input_value)
 
         except Exception as e:
             print(e)
             print("Currency input not found")
+            send_notification(account_email, "Currency input not found")
             return driver
 
 
 
         print("Currency entered")
+        send_notification(account_email, "Currency entered")
     except Exception as e:
         print(e)
         print("Setting currency failed")
+        send_notification(account_email, "Setting currency failed")
         return driver
 
     time.sleep(3)
     try:
         driver.find_element(By.ID,"C2C_p2pPost_step1_btn_next").click()
         print("Next button clicked")
+        send_notification(account_email, "Next button clicked")
     except Exception as e:
         print(e)
         print("Next button not found")
+        send_notification(account_email, "Next button not found")
         return driver
 
     #find input with name="initAmount"
@@ -281,6 +314,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.NAME, "initAmount")))
         print("Amount input found")
+        send_notification(account_email, "Amount input found")
         input = driver.find_element(By.NAME, "initAmount")
         time.sleep(1)
         input.clear()
@@ -298,10 +332,12 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
             input_value = input.get_attribute('value')
 
         print("Amount entered: " + input_value)
+        send_notification(account_email, "Amount entered: " + input_value)
 
     except Exception as e:
         print(e)
         print("Amount input not found")
+        send_notification(account_email, "Amount input not found")
         return driver
 
     time.sleep(1)
@@ -312,9 +348,11 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
         input.clear()
         input.send_keys(min_amount)
         print("Min amount entered")
+        send_notification(account_email, "Min amount entered")
     except Exception as e:
         print(e)
         print("Min amount input not found")
+        send_notification(account_email, "Min amount input not found")
         return driver
     #fin button with css selector 'form > div:nth-child(3) > div > button'
 
@@ -338,17 +376,20 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     except Exception as e:
         print(e)
         print("Payment method selection failed")
+        send_notification(account_email, "Payment method selection failed")
         return driver
 
     time.sleep(3)
     try:
         driver.find_element(By.ID, "C2C_p2pPost_step2_btn_next").click()
         print("Next button clicked")
+        send_notification(account_email, "Next button clicked")
 
         #find textarea with name="autoReplyMsg"
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.NAME, "autoReplyMsg")))
         print("Auto reply input found")
+        send_notification(account_email, "Auto reply input found")
 
         textarea = driver.find_element(By.NAME, "autoReplyMsg")
 
@@ -357,6 +398,7 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     except Exception as e:
         print(e)
         print("Auto reply input not found")
+        send_notification(account_email, "Auto reply input not found")
         return driver
 
     time.sleep(5)
@@ -364,18 +406,22 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text):
     # click on button with id "C2C_p2pPost_step3_btn_publish"
         driver.find_element(By.ID, "C2C_p2pPost_step3_btn_publish").click()
         print("Publish button will be clicked in 5 seconds")
+        send_notification(account_email, "Publish button will be clicked in 5 seconds")
         time.sleep(5)
 
         #click on class with text "Confirm to Post"
         driver.find_element(By.CSS_SELECTOR,"div.css-1u2pn8e button.css-pawbdq").click()
         print("Confirm to post clicked")
+        send_notification(account_email, "Confirm to post clicked")
 
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.ID,"C2C_p2pMyAdsList_management_btn_edit")))
         print("Bid added")
+        send_notification(account_email, "Bid added")
     except Exception as e:
         print(e)
         print("Bid not added")
+        send_notification(account_email, "Bid not added")
         return driver
     return driver
 
@@ -388,7 +434,7 @@ def get_order_detail(webdriver):
 def accept_order(webdriver):
     pass
 
-def get_created_bid_data(driver):
+def get_created_bid_data(driver, account_email):
     #get text by class css-plprkm
     result = {}
     try:
@@ -397,6 +443,7 @@ def get_created_bid_data(driver):
     except Exception as e:
         print(e)
         print("ad_number not found")
+        send_notification(account_email, "ad_number not found")
 
     try:
         amount = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-hjmza4").text
@@ -404,6 +451,7 @@ def get_created_bid_data(driver):
     except Exception as e:
         print(e)
         print("amount not found")
+        send_notification(account_email, "amount not found")
 
     try:
         price = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-x56ygg").text
@@ -411,6 +459,7 @@ def get_created_bid_data(driver):
     except Exception as e:
         print(e)
         print("price not found")
+        send_notification(account_email, "price not found")
 
     try:
         type = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-1v10lrq").text
@@ -418,6 +467,21 @@ def get_created_bid_data(driver):
     except Exception as e:
         print(e)
         print("type not found")
+        send_notification(account_email, "type not found")
 
     return result
+
+def send_notification(account, message):
+    data = {
+        "account_email": account,
+        "message": message,
+    }
+    url = "https://services.digichanger.pro/bemulator/api/driver_notify/"
+
+    try:
+        requests.post(url, data=data)
+    except Exception as e:
+        print(e)
+        print("Notification not sent")
+
 

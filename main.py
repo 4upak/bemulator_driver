@@ -40,12 +40,13 @@ def on_message(ws, message):
 
             if action == 'login':
                 print(action)
+                send_notification(account,"Login request received")
                 data = message_dict['data']
                 print(data['account'])
                 action_account = data['account']
 
                 if str(action_account) == str(account):
-                    driver = login(driver)
+                    driver = login(driver, account)
                     #driver = get_ballance(driver, action_account)
                 else:
                     print(action_account + " != " + account)
@@ -54,6 +55,7 @@ def on_message(ws, message):
             if action == 'add_payment_method':
 
                 print(action)
+                send_notification(account,"add_payment_method request received")
                 data = message_dict['data']
                 print(data['account'])
                 action_account = data['account']
@@ -64,14 +66,15 @@ def on_message(ws, message):
 
             if action == 'create_bid':
                 print(action)
+                send_notification(account,"create_bid request received")
                 data = message_dict['data']
                 print(data['account'])
                 action_account = data['account']
                 digichanger_order_id = data['digichanger_order_id']
                 if str(action_account) == str(account):
-                    driver = add_bid(driver, data['currency'],data['amount'], data['min_amount'], data['autoreplay_text'])
+                    driver = add_bid(driver, data['currency'],data['amount'], data['min_amount'], data['autoreplay_text'], account)
                     print(f"{digichanger_order_id} created")
-                    posted_bid_data = get_created_bid_data(driver)
+                    posted_bid_data = get_created_bid_data(driver, account)
                     print(posted_bid_data)
                     posted_bid_data['digichanger_order_id'] = digichanger_order_id
                     posted_bid_data['account_email'] = action_account
@@ -84,6 +87,7 @@ def on_message(ws, message):
 
             if action == 'post_bid':
                 print(action)
+                send_notification(account,"post_bid request received")
                 data = message_dict['data']
                 print(data['account'])
                 action_account = data['account']
@@ -97,7 +101,7 @@ def on_message(ws, message):
                 time.sleep(3)
                 if str(action_account) == str(account):
                     driver = add_bid(driver, data['currency'], data['amount'], data['min_amount'],
-                                     data['autoreplay_text'])
+                                     data['autoreplay_text'], account)
                     print(f"{digichanger_order_id} created")
                     time.sleep(10)
                     posted_bid_data = get_created_bid_data(driver)
@@ -112,11 +116,6 @@ def on_message(ws, message):
                 else:
                     print(action_account + " != " + account)
 
-
-
-
-
-
     except Exception as e:
         print(e)
 
@@ -127,9 +126,6 @@ def on_message(ws, message):
         print("cookies saved")
     except Exception as e:
         print(e)'''
-
-
-
 
 def on_error(ws, error):
     print(error)
