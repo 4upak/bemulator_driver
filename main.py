@@ -15,8 +15,8 @@ from seleniumwire import webdriver
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 
 
-account = "serg.chupak@gmail.com"
-#account = "avshapes@gmail.com"
+#account = "serg.chupak@gmail.com"
+account = "avshapes@gmail.com"
 #ws_url = "ws://0:8000/ws/emulator/emulator/"
 ws_url = "ws://167.235.77.8:8010/ws/emulator/emulator/"
 driver = webdriver.Chrome()
@@ -104,7 +104,7 @@ def on_message(ws, message):
                                      data['autoreplay_text'], account)
                     print(f"{digichanger_order_id} created")
                     time.sleep(10)
-                    posted_bid_data = get_created_bid_data(driver)
+                    posted_bid_data = get_created_bid_data(driver, account)
                     print(posted_bid_data)
                     posted_bid_data['digichanger_order_id'] = digichanger_order_id
                     posted_bid_data['account_email'] = action_account
