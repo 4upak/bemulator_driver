@@ -15,10 +15,10 @@ from seleniumwire import webdriver
 from selenium.webdriver.common.proxy import Proxy, ProxyType
 
 
-#account = "serg.chupak@gmail.com"
-account = "avshapes@gmail.com"
+account = "serg.chupak@gmail.com"
+#account = "avshapes@gmail.com"
 #ws_url = "ws://0:8000/ws/emulator/emulator/"
-ws_url = "ws://167.235.77.8:8010/ws/emulator/emulator/"
+ws_url = "wss://wss.digichanger.pro/ws/emulator/emulator/"
 driver = webdriver.Chrome()
 
 
