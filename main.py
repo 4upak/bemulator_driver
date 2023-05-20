@@ -13,6 +13,12 @@ import json
 from pathlib import Path
 from seleniumwire import webdriver
 from selenium.webdriver.common.proxy import Proxy, ProxyType
+from websocket import create_connection
+import ssl
+
+ssl_context = ssl.SSLContext()
+ssl_context.verify_mode = ssl.CERT_NONE
+ssl_context.check_hostname = False
 
 
 #account = "serg.chupak@gmail.com"
@@ -159,9 +165,12 @@ if __name__ == '__main__':
                                         on_close=on_close,
                                         on_open=on_open,
 
+
                                         )
             ws.on_open = on_open
-            ws.run_forever(ping_timeout=120)
+            ws.run_forever(ping_timeout=120,sslopt={"cert_reqs": ssl.CERT_NONE,
+                   "check_hostname": False,
+                   "ssl_version": ssl.PROTOCOL_TLSv1})
         except Exception as e:
             print(f"WebSocket error: {e}")
             time.sleep(1)
