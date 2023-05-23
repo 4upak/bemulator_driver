@@ -21,8 +21,8 @@ ssl_context.verify_mode = ssl.CERT_NONE
 ssl_context.check_hostname = False
 
 
-#account = "serg.chupak@gmail.com"
-account = "avshapes@gmail.com"
+account = "serg.chupak@gmail.com"
+#account = "avshapes@gmail.com"
 #ws_url = "ws://0:8000/ws/emulator/emulator/"
 ws_url = "wss://wss.digichanger.pro/ws/emulator/emulator/"
 driver = webdriver.Chrome()
@@ -170,7 +170,7 @@ if __name__ == '__main__':
             ws.on_open = on_open
             ws.run_forever(ping_timeout=120,sslopt={"cert_reqs": ssl.CERT_NONE,
                    "check_hostname": False,
-                   "ssl_version": ssl.PROTOCOL_TLSv1})
+                   "ssl_version": ssl.PROTOCOL_TLSv1_2})
         except Exception as e:
             print(f"WebSocket error: {e}")
             time.sleep(1)
