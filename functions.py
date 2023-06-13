@@ -92,10 +92,6 @@ def get_ballance(driver, account_email):
     print(result.json())
     return driver
 
-
-
-
-
 def quit(webdriver):
     pass
 
@@ -483,5 +479,98 @@ def send_notification(account, message):
     except Exception as e:
         print(e)
         print("Notification not sent")
+
+def set_input_value(driver, input, value):
+    ActionChains(driver).double_click(input).perform()
+    ActionChains(driver).send_keys(Keys.DELETE).send_keys(value).perform()
+
+    input_value = input.get_attribute('value')
+    i=0
+    while float(input_value) != float(value):
+        print(input_value + "!=" + value)
+        ActionChains(driver).double_click(currency_input).perform()
+        ActionChains(driver).send_keys(Keys.DELETE).send_keys(currency).perform()
+        input_value = input.get_attribute('value')
+        i+=1
+        if i>5:
+            return False
+
+    return True
+
+
+def set_currency(driver, account_email, currency, amount, min_amount):
+    driver.get('https://p2p.binance.com/en/myads?type=normal&code=default')
+    time.sleep(5)
+    try:
+        edit_button = driver.find_element(By.ID, 'C2C_p2pMyAdsList_management_btn_edit')
+        edit_button.click()
+
+    except Exception as e:
+        print("Currency edit button found")
+        send_notification(account_email, "Currency select not found")
+        return driver
+
+    time.sleep(5)
+
+    try:
+        currency_input = driver.find_element(By.CSS_SELECTOR, '.styled__Wrap-op0405-0 input')
+
+        set_input_value(driver, currency_input, currency)
+
+
+    except Exception as e:
+        print(e)
+        print("Currency input not found")
+        send_notification(account_email, "Currency input not found")
+        return driver
+
+    time.sleep(2)
+
+    try:
+        print("Try to set amount: " + str(amount))
+        amount_input = driver.find_element(By.CSS_SELECTOR, '.css-1sstzk2 input.css-16fg16t')
+        set_input_value(driver, amount_input, amount)
+
+    except Exception as e:
+        print(e)
+        print("Amount input not found")
+        send_notification(account_email, "Amount input not found")
+        return driver
+
+    time.sleep(2)
+
+    try:
+        print("Try to set min amount: " + str(min_amount))
+        min_amount_input = driver.find_element(By.CSS_SELECTOR, '.css-1vnqs5s input.css-16fg16t')
+        set_input_value(driver, min_amount_input, min_amount)
+
+    except Exception as e:
+        print(e)
+        print("min amount input not found")
+        send_notification(account_email, "min amount input not found")
+        return driver
+
+    #find button by text "Post"
+
+    time.sleep(2)
+
+    try:
+        post_button = driver.find_element(By.CSS_SELECTOR, '.css-14teco8 button.css-g3exg4')
+        post_button.click()
+        time.sleep(2)
+        accept_button = driver.find_element(By.CSS_SELECTOR, '.css-1u2pn8e button.css-pawbdq')
+        accept_button.click()
+
+    except Exception as e:
+        print("Post button not found")
+        send_notification(account_email, "Post button not found")
+        return driver
+
+    time.sleep(2)
+    return driver
+
+
+
+
 
 

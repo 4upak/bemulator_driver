@@ -122,6 +122,19 @@ def on_message(ws, message):
                 else:
                     print(action_account + " != " + account)
 
+            if action == 'set_currency':
+                print(action)
+                send_notification(account,"set_currency request received")
+                data = message_dict['data']
+                print(data['account'])
+                action_account = data['account']
+
+                if str(action_account) == str(account):
+                    driver = set_currency(driver,action_account, data['currency'], data['amount'],data['min_amount'])
+                else:
+                    print(action_account + " != " + account)
+
+
     except Exception as e:
         print(e)
 
