@@ -130,7 +130,7 @@ def on_message(ws, message):
                 action_account = data['account']
 
                 if str(action_account) == str(account):
-                    driver = set_currency(driver,action_account, data['currency'], data['amount'],data['min_amount'])
+                    driver = set_currency(driver,action_account, data['currency'])
                 else:
                     print(action_account + " != " + account)
 

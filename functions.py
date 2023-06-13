@@ -488,7 +488,7 @@ def set_input_value(driver, input, value):
     i=0
     while float(input_value) != float(value):
         print(input_value + "!=" + value)
-        ActionChains(driver).double_click(currency_input).perform()
+        ActionChains(driver).double_click(input).perform()
         ActionChains(driver).send_keys(Keys.DELETE).send_keys(currency).perform()
         input_value = input.get_attribute('value')
         i+=1
@@ -498,7 +498,7 @@ def set_input_value(driver, input, value):
     return True
 
 
-def set_currency(driver, account_email, currency, amount, min_amount):
+def set_currency(driver, account_email, currency):
     driver.get('https://p2p.binance.com/en/myads?type=normal&code=default')
     time.sleep(5)
     try:
@@ -527,27 +527,18 @@ def set_currency(driver, account_email, currency, amount, min_amount):
     time.sleep(2)
 
     try:
-        print("Try to set amount: " + str(amount))
         amount_input = driver.find_element(By.CSS_SELECTOR, '.css-1sstzk2 input.css-16fg16t')
-        set_input_value(driver, amount_input, amount)
+        amount_value = amount_input.get_attribute('value')
+        min_amount_input = driver.find_element(By.CSS_SELECTOR, '.css-1vnqs5s input.css-16fg16t')
+        min_amount_value = min_amount_input.get_attribute('value')
+
+        if float(min_amount_value) > float(float(amount_value)*float(currency)*0.999-float(0.4)):
+            set_input_value(driver, min_amount_input, round(float(amount_value)*float(currency)*float(0.999)-float(0.4),2))
 
     except Exception as e:
         print(e)
         print("Amount input not found")
         send_notification(account_email, "Amount input not found")
-        return driver
-
-    time.sleep(2)
-
-    try:
-        print("Try to set min amount: " + str(min_amount))
-        min_amount_input = driver.find_element(By.CSS_SELECTOR, '.css-1vnqs5s input.css-16fg16t')
-        set_input_value(driver, min_amount_input, min_amount)
-
-    except Exception as e:
-        print(e)
-        print("min amount input not found")
-        send_notification(account_email, "min amount input not found")
         return driver
 
     #find button by text "Post"
