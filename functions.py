@@ -143,7 +143,7 @@ def add_payment_method(driver,account_email,card_number,card_holder_name,bank_na
                                 "div.styled__ButtonWrap-sc-1icz59t-3.fouYfr.css-4cffwv > button.css-18jinle").click()
 
     except Exception as e:
-        print(e)
+        print("Other payment methods not found")
     #delete old payment methods
     print("Account email: " + account_email)
     send_notification(account_email, "Account email: " + account_email)
@@ -219,7 +219,6 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
     send_notification(account_email, "Checking for other bid")
 
     try:
-
         close_element = driver.find_element(By.ID, "C2C_p2pMyAdsList_management_btn_close")
         if close_element:
             print("Other bid found")
@@ -238,7 +237,8 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
             driver.find_element(By.CSS_SELECTOR, "div.styled__ButtonWrap-sc-1icz59t-3.fouYfr.css-4cffwv > button.css-18jinle").click()
 
     except Exception as e:
-        print(e)
+        print('Other bids chech error')
+
 
     print("No other bid found")
     send_notification(account_email, "No other bid found")
@@ -250,20 +250,17 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
         print("New bid button clicked")
         send_notification(account_email, "New bid button clicked")
     except Exception as e:
-        print(e)
-        print("New bid button not found")
+        print('New bid button not found')
         send_notification(account_email, "New bid button not found")
-        return driver
-
+        return {'driver': driver, 'success': False}
 
     time.sleep(10)
     try:
         driver.find_element(By.CLASS_NAME,"css-1wk26uy").click()
     except Exception as e:
-        print(e)
-        print("Sell button not found")
+        print('Sell button not found')
         send_notification(account_email, "Sell button not found")
-        return driver
+        return {'driver': driver, 'success': False}
 
     time.sleep(3)
     try:
@@ -294,20 +291,18 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
             send_notification(account_email, "Currency input value: " + input_value)
 
         except Exception as e:
-            print(e)
-            print("Currency input not found")
+            print('Currency input not found')
             send_notification(account_email, "Currency input not found")
-            return driver
+            return {'driver': driver, 'success': False}
 
 
 
         print("Currency entered")
         send_notification(account_email, "Currency entered")
     except Exception as e:
-        print(e)
-        print("Setting currency failed")
+        print('Setting currency failed')
         send_notification(account_email, "Setting currency failed")
-        return driver
+        return {'driver': driver, 'success': False}
 
     time.sleep(3)
     try:
@@ -315,10 +310,10 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
         print("Next button clicked")
         send_notification(account_email, "Next button clicked")
     except Exception as e:
-        print(e)
-        print("Next button not found")
+        print('Next button not found')
         send_notification(account_email, "Next button not found")
-        return driver
+        return {'driver': driver, 'success': False}
+
 
     #find input with name="initAmount"
     time.sleep(3)
@@ -348,10 +343,10 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
         send_notification(account_email, "Amount entered: " + input_value)
 
     except Exception as e:
-        print(e)
-        print("Amount input not found")
+        print('Amount input not found')
         send_notification(account_email, "Amount input not found")
-        return driver
+        return {'driver': driver, 'success': False}
+
 
     time.sleep(1)
     try:
@@ -363,10 +358,10 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
         print("Min amount entered")
         send_notification(account_email, "Min amount entered")
     except Exception as e:
-        print(e)
-        print("Min amount input not found")
+        print('Min amount input not found')
         send_notification(account_email, "Min amount input not found")
-        return driver
+        return {'driver': driver, 'success': False}
+
     #fin button with css selector 'form > div:nth-child(3) > div > button'
 
     time.sleep(3)
@@ -387,10 +382,9 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
 
 
     except Exception as e:
-        print(e)
-        print("Payment method selection failed")
+        print('Payment method selection failed')
         send_notification(account_email, "Payment method selection failed")
-        return driver
+        return {'driver': driver, 'success': False}
 
     time.sleep(3)
     try:
@@ -414,10 +408,10 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
         time.sleep(1)
 
     except Exception as e:
-        print(e)
-        print("Auto reply input not found")
+        print('Auto reply input not found')
         send_notification(account_email, "Auto reply input not found")
-        return driver
+        return {'driver': driver, 'success': False}
+
 
     time.sleep(5)
     try:
@@ -432,16 +426,16 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
         print("Confirm to post clicked")
         send_notification(account_email, "Confirm to post clicked")
 
-        wait = WebDriverWait(driver, 10)
-        wait.until(EC.presence_of_element_located((By.ID,"C2C_p2pMyAdsList_management_btn_edit")))
+        time.sleep(5)
         print("Bid added")
         send_notification(account_email, "Bid added")
+        return {'driver': driver, 'success': True}
     except Exception as e:
-        print(e)
-        print("Bid not added")
+        print('Bid not added')
         send_notification(account_email, "Bid not added")
-        return driver
-    return driver
+        return {'driver': driver, 'success': False}
+
+
 
 def get_order_list(webdriver):
     pass
