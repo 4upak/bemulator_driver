@@ -535,7 +535,7 @@ def set_currency(driver, account_email, currency):
         amount_input = driver.find_element(By.CSS_SELECTOR, '.css-1sstzk2 input.css-16fg16t')
         amount_value = amount_input.get_attribute('value')
 
-        new_amount_value = (float(amount_value) + float(amount_value)*float(delta_index))+0.1
+        new_amount_value = (float(amount_value)*1.001 + float(amount_value)*1.001*float(delta_index))
 
         set_input_value(driver, amount_input, round(new_amount_value,2))
 
