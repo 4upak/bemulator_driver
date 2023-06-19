@@ -21,6 +21,23 @@ def get_mfa_code(email):
         print(e)
         return False
 
+def set_input_value(driver, input, value):
+    ActionChains(driver).double_click(input).perform()
+    ActionChains(driver).send_keys(Keys.DELETE).send_keys(value).perform()
+
+    input_value = input.get_attribute('value')
+    i=0
+    while float(input_value) != float(value):
+        print(input_value + "!=" + value)
+        ActionChains(driver).double_click(input).perform()
+        ActionChains(driver).send_keys(Keys.DELETE).send_keys(currency).perform()
+        input_value = input.get_attribute('value')
+        i+=1
+        if i>5:
+            return False
+
+    return True
+
 def login(driver,account_email):
     driver.get('https:///p2p.binance.com')
     while True:
@@ -391,6 +408,11 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
 
         textarea.send_keys(autoreplay_text)
         time.sleep(1)
+
+        remarks_textarea =  driver.find_element(By.NAME, "remarks")
+        remarks_textarea.send_keys("Для звiтностi потрiбна квитанцiя або скрiншот транзакцiї. Дякую за розумiння.")
+        time.sleep(1)
+
     except Exception as e:
         print(e)
         print("Auto reply input not found")
@@ -479,23 +501,6 @@ def send_notification(account, message):
     except Exception as e:
         print(e)
         print("Notification not sent")
-
-def set_input_value(driver, input, value):
-    ActionChains(driver).double_click(input).perform()
-    ActionChains(driver).send_keys(Keys.DELETE).send_keys(value).perform()
-
-    input_value = input.get_attribute('value')
-    i=0
-    while float(input_value) != float(value):
-        print(input_value + "!=" + value)
-        ActionChains(driver).double_click(input).perform()
-        ActionChains(driver).send_keys(Keys.DELETE).send_keys(currency).perform()
-        input_value = input.get_attribute('value')
-        i+=1
-        if i>5:
-            return False
-
-    return True
 
 
 def set_currency(driver, account_email, currency):
