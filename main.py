@@ -117,7 +117,7 @@ def on_message(ws, message):
                     print(posted_bid_data)
                     post_request = requests.post('https://services.digichanger.pro/bemulator/api/binance_bid/add/',
                                                  data=posted_bid_data)
-                    print(vars(post_request))
+                    print(vars(post_request)['_content'])
 
                 else:
                     print(action_account + " != " + account)

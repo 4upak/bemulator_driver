@@ -506,6 +506,8 @@ def send_notification(account, message):
 def set_currency(driver, account_email, currency):
     driver.get('https://p2p.binance.com/en/myads?type=normal&code=default')
     time.sleep(5)
+    delta = 0
+    delta_index = 0
     try:
         edit_button = driver.find_element(By.ID, 'C2C_p2pMyAdsList_management_btn_edit')
         edit_button.click()
@@ -518,9 +520,13 @@ def set_currency(driver, account_email, currency):
     time.sleep(5)
 
     try:
-        currency_input = driver.find_element(By.CSS_SELECTOR, '.styled__Wrap-op0405-0 input')
 
-        set_input_value(driver, currency_input, currency)
+        currency_input = driver.find_element(By.CSS_SELECTOR, '.styled__Wrap-op0405-0 input')
+        value = currency_input.get_attribute('value')
+        if value != currency:
+            set_input_value(driver, currency_input, currency)
+            delta =  float(value) - float(currency)
+            delta_index = delta/float(value)
 
 
     except Exception as e:
@@ -534,11 +540,10 @@ def set_currency(driver, account_email, currency):
     try:
         amount_input = driver.find_element(By.CSS_SELECTOR, '.css-1sstzk2 input.css-16fg16t')
         amount_value = amount_input.get_attribute('value')
-        min_amount_input = driver.find_element(By.CSS_SELECTOR, '.css-1vnqs5s input.css-16fg16t')
-        min_amount_value = min_amount_input.get_attribute('value')
 
-        if float(min_amount_value) > float(float(amount_value)*float(currency)*0.999-float(0.4)):
-            set_input_value(driver, min_amount_input, round(float(amount_value)*float(currency)*float(0.999)-float(0.4),2))
+        new_amount_value = float(amount_value) + float(amount_value)*float(delta_index)
+
+        set_input_value(driver, amount_input, round(new_amount_value,2))
 
     except Exception as e:
         print(e)
