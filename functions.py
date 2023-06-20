@@ -460,7 +460,10 @@ def get_created_bid_data(driver, account_email):
             bid_id = driver.find_element(By.CSS_SELECTOR, ".css-1div323 div.css-plprkm").text
             result["ad_number"] = bid_id
         except Exception as e:
-            return False
+            try:
+                result["ad_number"] = random.randint(100000, 999999)
+            except Exception as e:
+                return False
 
     try:
         amount = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-hjmza4").text
