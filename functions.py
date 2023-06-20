@@ -456,6 +456,11 @@ def get_created_bid_data(driver, account_email):
         print(e)
         print("ad_number not found")
         send_notification(account_email, "ad_number not found")
+        try:
+            bid_id = driver.find_element(By.CSS_SELECTOR, ".css-1div323 div.css-plprkm").text
+            result["ad_number"] = bid_id
+        except Exception as e:
+            return False
 
     try:
         amount = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-hjmza4").text
