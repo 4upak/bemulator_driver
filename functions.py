@@ -553,6 +553,15 @@ def set_currency(driver, account_email, currency):
         send_notification(account_email, "Amount input not found")
         return driver
 
+    try:
+        min_limit_input = driver.find_element(By.XPATH, '//*[@id="c2c_advDetail_trading_amount"]/div[3]/div[2]/div[1]/div/input')
+        min_limit_value = min_limit_input.get_attribute('value')
+
+        max_limit_input = driver.find_element(By.XPATH, './/*[@id="c2c_advDetail_trading_amount"]/div[3]/div[2]/div[3]/div/input')
+        set_input_value(driver, max_limit_input, min_limit_value)
+    except Exception as e:
+        print(e)
+        return driver
     #find button by text "Post"
 
     time.sleep(2)
