@@ -125,22 +125,24 @@ def on_message(ws, message):
                             break
                             print("bid not posted 3 times")
 
+                    j = 0
                     while True:
                         posted_bid_data = get_created_bid_data(driver, account)
                         print(posted_bid_data)
-                        posted_bid_data['digichanger_order_id'] = digichanger_order_id
-                        posted_bid_data['account_email'] = action_account
-                        print(posted_bid_data)
-                        post_request = requests.post('https://services.digichanger.pro/bemulator/api/binance_bid/add/',
-                                                     data=posted_bid_data)
-                        print(vars(post_request)['_content'])
-                        if json.loads(vars(post_request)['_content'])['succeess'] == True:
-                            print("bid posted")
-                            break
-                        else:
-                            driver.refresh()
-                            time.sleep(3)
-                        j += 1
+                        if posted_bid_data:
+                            posted_bid_data['digichanger_order_id'] = digichanger_order_id
+                            posted_bid_data['account_email'] = action_account
+                            print(posted_bid_data)
+                            post_request = requests.post('https://services.digichanger.pro/bemulator/api/binance_bid/add/',
+                                                         data=posted_bid_data)
+                            print(vars(post_request)['_content'])
+                            if json.loads(vars(post_request)['_content'])['succeess'] == True:
+                                print("bid posted")
+                                break
+                            else:
+                                driver.refresh()
+                                time.sleep(3)
+                            j += 1
                         if j > 3:
                             break
                             print("data not send 3 times")

@@ -468,6 +468,7 @@ def get_created_bid_data(driver, account_email):
         print(e)
         print("amount not found")
         send_notification(account_email, "amount not found")
+        return False
 
     try:
         price = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-x56ygg").text
@@ -476,6 +477,7 @@ def get_created_bid_data(driver, account_email):
         print(e)
         print("price not found")
         send_notification(account_email, "price not found")
+        return False
 
     try:
         type = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-1v10lrq").text
@@ -484,6 +486,7 @@ def get_created_bid_data(driver, account_email):
         print(e)
         print("type not found")
         send_notification(account_email, "type not found")
+        return False
 
     return result
 
