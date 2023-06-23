@@ -7,6 +7,7 @@ import requests
 import json
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
+import random
 
 def get_mfa_code(email):
     post_data = {
@@ -435,8 +436,6 @@ def add_bid(driver, currency, amount, min_amount, autoreplay_text, account_email
         send_notification(account_email, "Bid not added")
         return {'driver': driver, 'success': False}
 
-
-
 def get_order_list(webdriver):
     pass
 
@@ -460,10 +459,7 @@ def get_created_bid_data(driver, account_email):
             bid_id = driver.find_element(By.CSS_SELECTOR, ".css-1div323 div.css-plprkm").text
             result["ad_number"] = bid_id
         except Exception as e:
-            try:
-                result["ad_number"] = random.randint(100000, 999999)
-            except Exception as e:
-                return False
+            result["ad_number"] = random.randint(100000, 999999)
 
     try:
         amount = driver.find_element(By.CSS_SELECTOR,".css-g5ktnw div.css-hjmza4").text
