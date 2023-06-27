@@ -142,7 +142,7 @@ def on_message(ws, message):
                             else:
                                 driver.refresh()
                                 time.sleep(3)
-                            j += 1
+                        j += 1
                         if j > 3:
                             break
                             print("data not send 3 times")
